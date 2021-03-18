@@ -4,10 +4,10 @@
 #include <math.h>
 #include <time.h>
 
-#define false 0;
-#define true 1;
-#define prime 1;
-#define composite 0;
+#define false 0
+#define true 1
+#define PRIME 1
+#define COMPOSITE 0
 
 long long int modExp(long long int, long long int, long long int);
 int millerRabinCheck(long long int, long long int, long long int, long long int);
@@ -91,7 +91,10 @@ int main(int argc, char** argv){
     srand((unsigned int)time(&t));
     for(int i = 0; i != s; i++){
       a = (rand()%(n-2)) + 1;
-      millerRabinCheck(n, k, q, a);
+      if(millerRabinCheck(n, k, q, a) == COMPOSITE){
+        printf("%lli was found to be definitely composite. Terminating...\n", n);
+        exit(0);
+      }
     }
     exit(0);
   }
@@ -103,15 +106,15 @@ int millerRabinCheck(long long int n, long long int k, long long int q, long lon
   printf("Checking %lli against %lli...\n", n, a);
   if(modExp(a, q, n) == 1){
     printf("%lli may be prime.\n", n);
-    return prime;
+    return PRIME;
   }
   for(int i = 0; i < k; i++){
     if(modExp(a, pow(2, i)*q, n) == (n-1)){
       printf("%lli may be prime.\n", n);
-      return prime;
+      return PRIME;
     }
   }
   printf("%lli is composite.\n", n);
-  return composite;
+  return COMPOSITE;
 }
   
